@@ -16,6 +16,10 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: "Six Guys",
       routerConfig: router,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
