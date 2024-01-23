@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/ui/home/widgets/content_box_widget.dart';
+import 'package:six_guys/utils/ocr_plugin.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -22,8 +25,12 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        final Image? image = await ref.read(routerProvider).pushNamed(Routes.camera);
+                        // final Image? image = await ref.read(routerProvider).pushNamed(Routes.camera);
+                        final File? image = await ref.read(routerProvider).pushNamed(Routes.demo);
                         if (image == null) return;
+
+                        final result = await ref.read(OCRPluginProvider).getOCRByBytes(await image.readAsBytes());
+                        print(result);
                       },
                       child: Ink(
                         decoration: BoxDecoration(
