@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/ui/home/widgets/content_box_widget.dart';
+import 'package:six_guys/utils/nlp_plugin.dart';
 import 'package:six_guys/utils/ocr_plugin.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -12,6 +13,8 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final nlpPlugin = ref.watch(nlpPluginProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Six Guys")),
       body: SafeArea(
@@ -30,7 +33,8 @@ class HomeScreen extends ConsumerWidget {
                         if (image == null) return;
 
                         final result = await ref.read(OCRPluginProvider).getOCRByBytes(await image.readAsBytes());
-                        print(result);
+                        final answer = await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n$result");
+                        print(answer);
                       },
                       child: Ink(
                         decoration: BoxDecoration(
