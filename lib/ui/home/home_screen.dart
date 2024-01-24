@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                         // final File? image = await ref.read(routerProvider).pushNamed(Routes.demo);
                         if (image == null) return;
 
-                        final result = await ref.read(OCRPluginProvider).getOCRByFile(image);
+                        final result = await ref.read(ocrPluginProvider).getOCRByFile(image);
                         final answer = await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n${result.text}");
                         print(answer);
                       },

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
-final OCRPluginProvider = Provider<OCRPlugin>((ref) => OCRPlugin());
+final ocrPluginProvider = Provider<OCRPlugin>((ref) => OCRPlugin());
 
 class OCRPlugin {
   Future<RecognizedText> getOCRByFile(File imageFile) async {
