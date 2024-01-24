@@ -11,7 +11,7 @@ class NLPPlugin {
   final _endPoint = "https://api.openai.com/v1/chat/completions";
   final _dio = Dio();
 
-  Future<Map<String, dynamic>> getJsonResult(String prmopt) async {
+  Future<Map<String, dynamic>> getJsonResult(String prompt) async {
     final result = await _dio.post(
       _endPoint,
       data: {
@@ -19,7 +19,7 @@ class NLPPlugin {
         "response_format": {"type": "json_object"},
         "messages": [
           {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
-          {"role": "user", "content": prmopt}
+          {"role": "user", "content": prompt}
         ]
       },
       options: Options(
