@@ -1,4 +1,4 @@
-package com.example.six_guys
+package com.irvine.six_guys
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510387520974",
+    "project_id": "irvine-sixguys",
+    "storage_bucket": "irvine-sixguys.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510387520974:android:6942d664d4a526208fd79f",
+        "android_client_info": {
+          "package_name": "com.irvine.six_guys"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKh9vEleR4uBvufPnZy_9noCBd1HFl5Vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

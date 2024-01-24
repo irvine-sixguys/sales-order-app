@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCNuqw8t4W68pFgRAmR4yy24b4Qou1U9AU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>510387520974</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.irvine-tech-hub.sixguys</string>
+	<key>PROJECT_ID</key>
+	<string>irvine-sixguys</string>
+	<key>STORAGE_BUCKET</key>
+	<string>irvine-sixguys.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:510387520974:ios:f9e1f091a73c215c8fd79f</string>
+</dict>
+</plist>
