@@ -83,7 +83,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         child: InkWell(
                           onTap: () async {
                             final imageFile = await controller!.takePicture();
-                            final image = Image.file(File(imageFile.path));
+                            final image = File(imageFile.path);
                             if (mounted) context.pop(image);
                           },
                           child: Container(

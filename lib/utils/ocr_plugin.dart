@@ -1,18 +1,16 @@
-import 'package:flutter/services.dart';
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 final OCRPluginProvider = Provider<OCRPlugin>((ref) => OCRPlugin());
 
 class OCRPlugin {
-  static const MethodChannel _channel = MethodChannel('ocr_plugin');
+  Future<RecognizedText> getOCRByFile(File imageFile) async {
+    final inputImage = InputImage.fromFile(imageFile);
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
 
-  Future<String> getOCRByPath(String imagePath) async {
-    final String result = await _channel.invokeMethod('getOCRByPath', {"imagePath": imagePath});
-    return result;
-  }
-
-  Future<String> getOCRByBytes(List<int> imageBytes) async {
-    final String result = await _channel.invokeMethod('getOCRByBytes', {"imageBytes": imageBytes});
-    return result;
+    return recognizedText;
   }
 }
