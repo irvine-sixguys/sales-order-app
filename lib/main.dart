@@ -6,6 +6,8 @@ import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(
