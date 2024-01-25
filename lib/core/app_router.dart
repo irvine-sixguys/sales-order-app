@@ -6,14 +6,22 @@ import 'package:go_router/go_router.dart';
 import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/ui/camera/demo_image_screen.dart';
 import 'package:six_guys/ui/camera/image_bounding_box_screen.dart';
-import 'package:six_guys/ui/home/home_screen.dart';
+import 'package:six_guys/ui/erpnext/erpnext_screen.dart';
+import 'package:six_guys/ui/menu/menu_screen.dart';
+import 'package:six_guys/ui/scan/scan_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) => GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          name: Routes.home,
-          builder: (context, state) => HomeScreen(),
+          name: Routes.menu,
+          builder: (context, state) => const MenuScreen(),
+        ),
+        GoRoute(path: '/erpnext', name: Routes.erpnext, builder: (context, state) => const ERPNextScreen()),
+        GoRoute(
+          path: '/scan',
+          name: Routes.scan,
+          builder: (context, state) => const ScanScreen(),
         ),
         GoRoute(
           path: '/bounding-box',
