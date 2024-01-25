@@ -30,6 +30,8 @@
 	<string>SixGuys requires access to your phone’s camera.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>SixGuys requires access to your phone’s camera.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>SixGuys requires access to your phone’s camera.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
