@@ -1,17 +1,27 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/core/app_routes.dart';
+import 'package:six_guys/ui/camera/painters/text_detector_painter.dart';
 import 'package:six_guys/ui/home/widgets/content_box_widget.dart';
 import 'package:six_guys/utils/nlp_plugin.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     final nlpPlugin = ref.watch(nlpPluginProvider);
 
     return Scaffold(
@@ -27,15 +37,37 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        final File? image = await ref.read(routerProvider).pushNamed(Routes.camera);
-                        if (image == null) return;
+                        final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+                        if (pickedFile == null) return;
 
-                        final text = await ref.read(routerProvider).pushNamed(Routes.boundingBox, extra: {
-                          "imageFile": image,
+                        final rotatedImage = await FlutterExifRotation.rotateImage(path: pickedFile.path);
+                        final inputImage = InputImage.fromFile(rotatedImage);
+
+                        final imageBytes = await File(inputImage.filePath!).readAsBytes();
+                        final decodedImage = await decodeImageFromList(imageBytes);
+                        final height = decodedImage.height; // Image height
+                        final width = decodedImage.width; // Image width
+
+                        final recognizedText = await TextRecognizer(script: TextRecognitionScript.latin).processImage(inputImage);
+                        final painter = TextRecognizerPainter(
+                          recognizedText,
+                          Size(width.toDouble(), height.toDouble()),
+                          InputImageRotation.rotation0deg,
+                          CameraLensDirection.back,
+                        );
+
+                        final answer = await ref.read(routerProvider).pushNamed<bool>(Routes.boundingBox, extra: {
+                          "imageFile": rotatedImage,
+                          "child": AspectRatio(
+                            aspectRatio: width / height,
+                            child: CustomPaint(painter: painter),
+                          ),
                         });
 
-                        final answer = await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n$text");
-                        print(answer);
+                        if (answer == null || !answer) return;
+
+                        final res = await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n${recognizedText.text}");
+                        print(res);
                       },
                       child: Ink(
                         decoration: BoxDecoration(
