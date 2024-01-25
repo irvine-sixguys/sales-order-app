@@ -9,17 +9,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/ui/camera/painters/text_detector_painter.dart';
-import 'package:six_guys/ui/home/widgets/content_box_widget.dart';
+import 'package:six_guys/ui/scan/widgets/content_box_widget.dart';
 import 'package:six_guys/utils/nlp_plugin.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class ScanScreen extends ConsumerStatefulWidget {
+  const ScanScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ScanScreen> createState() => _ScanScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _ScanScreenState extends ConsumerState<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     final nlpPlugin = ref.watch(nlpPluginProvider);
