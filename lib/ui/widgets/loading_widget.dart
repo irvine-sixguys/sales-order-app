@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:six_guys/utils/modals.dart';
 
-final globalLoadingProvider = StateNotifierProvider<GlobalLoading, bool>((ref) => GlobalLoading());
+final globalLoadingProvider = StateNotifierProvider<GlobalLoading, bool>((ref) => GlobalLoading(ref));
+
+const _timeoutMessage = "[Timeout] maybe the server is down or the internet connection is slow. Please try again later.";
 
 class LoadingWidget extends ConsumerWidget {
   final Widget child;
@@ -33,31 +36,39 @@ class LoadingWidget extends ConsumerWidget {
 ///
 /// purpose: prevent user to wait forever
 class GlobalLoading extends StateNotifier<bool> {
-  GlobalLoading() : super(false);
+  final Ref ref;
+
+  GlobalLoading(this.ref) : super(false);
+
+  void _showMessage(String message) {
+    ref.read(modalsProvider).showMySnackBar(message);
+  }
 
   /// start loading with timeout
   ///
-  /// if timeout reached, stop loading and throw [LoadingException]
+  /// if timeout reached, stop loading and show message
   void startLoadingWithTimeout({int timeout = 10}) async {
     state = true;
     await Future.delayed(Duration(seconds: timeout));
 
     if (state) {
       state = false;
-      throw LoadingException("Timeout reached");
+      _showMessage(_timeoutMessage);
     }
   }
 
   /// start loading with timeout and return result
   ///
-  /// if timeout reached, stop loading and throw [LoadingException]
-  Future<T> startLoadingWithTimeoutAndReturnResult<T>(Future<T> Function() future, {int timeout = 10}) async {
+  /// if timeout reached, stop loading and show message
+  Future<T?> startLoadingWithTimeoutAndReturnResult<T>(Future<T> Function() future, {int timeout = 20}) async {
     state = true;
     final result = await Future.any([
       future(),
       Future.delayed(Duration(seconds: timeout), () {
-        state = false;
-        throw LoadingException("Timeout reached");
+        if (state) {
+          state = false;
+          _showMessage(_timeoutMessage);
+        }
       }),
     ]);
 
@@ -68,10 +79,4 @@ class GlobalLoading extends StateNotifier<bool> {
   void stopLoading() {
     state = false;
   }
-}
-
-class LoadingException implements Exception {
-  final String message;
-
-  LoadingException(this.message);
 }
