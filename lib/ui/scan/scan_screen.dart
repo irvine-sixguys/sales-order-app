@@ -11,6 +11,7 @@ import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/domain/sales_order.dart';
 import 'package:six_guys/ui/camera/painters/text_detector_painter.dart';
 import 'package:six_guys/ui/scan/widgets/content_box_widget.dart';
+import 'package:six_guys/ui/widgets/loading_widget.dart';
 import 'package:six_guys/utils/nlp_plugin.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
@@ -49,9 +50,12 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        final globalLoadingNotifier = ref.read(globalLoadingProvider.notifier);
+
                         final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
                         if (pickedFile == null) return;
 
+                        globalLoadingNotifier.startLoadingWithTimeout();
                         final rotatedImage = await FlutterExifRotation.rotateImage(path: pickedFile.path);
                         final inputImage = InputImage.fromFile(rotatedImage);
 
@@ -67,6 +71,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                           InputImageRotation.rotation0deg,
                           CameraLensDirection.back,
                         );
+                        globalLoadingNotifier.stopLoading();
 
                         final answer = await ref.read(routerProvider).pushNamed<bool>(Routes.boundingBox, extra: {
                           "imageFile": rotatedImage,
@@ -78,7 +83,11 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
 
                         if (answer == null || !answer) return;
 
-                        final res = await nlpPlugin.getJsonResult(nlpPlugin.getPrompt(recognizedText.text));
+                        final res = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult(
+                          () async => await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n${recognizedText.text}"),
+                        );
+                        if (res == null) return;
+
                         final salesOrder = SalesOrder.fromJson(res);
 
                         _fillTextFields(salesOrder, controllers);
