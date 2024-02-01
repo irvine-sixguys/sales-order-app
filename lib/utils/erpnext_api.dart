@@ -42,6 +42,7 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
           options: Options(
             headers: {"Content-Type": "application/json", "Accept": "application/json"},
           ));
+      print(response.data);
     } on DioException catch (e) {
       print(e);
     }
@@ -75,7 +76,7 @@ class ERPNextAPI {
   final String? loginCookie;
 
   ERPNextAPI({
-    this.url = "http://localhost:8000",
+    this.url = "http://192.168.86.32:7000",
     this.username = "Administrator",
     this.password = "admin",
     this.loginCookie,

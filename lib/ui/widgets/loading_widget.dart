@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/utils/modals.dart';
+import 'package:uuid/uuid.dart';
 
 final globalLoadingProvider = StateNotifierProvider<GlobalLoading, bool>((ref) => GlobalLoading(ref));
 
@@ -37,6 +38,8 @@ class LoadingWidget extends ConsumerWidget {
 /// purpose: prevent user to wait forever
 class GlobalLoading extends StateNotifier<bool> {
   final Ref ref;
+  final Uuid _uuid = Uuid();
+  String? _currentLoadingId;
 
   GlobalLoading(this.ref) : super(false);
 
@@ -49,9 +52,11 @@ class GlobalLoading extends StateNotifier<bool> {
   /// if timeout reached, stop loading and show message
   void startLoadingWithTimeout({int timeout = 10}) async {
     state = true;
+    final id = _uuid.v8();
+    _currentLoadingId = id;
     await Future.delayed(Duration(seconds: timeout));
 
-    if (state) {
+    if (state && _currentLoadingId == id) {
       state = false;
       _showMessage(_timeoutMessage);
     }
@@ -62,17 +67,22 @@ class GlobalLoading extends StateNotifier<bool> {
   /// if timeout reached, stop loading and show message
   Future<T?> startLoadingWithTimeoutAndReturnResult<T>(Future<T> Function() future, {int timeout = 20}) async {
     state = true;
+    final id = _uuid.v8();
+    _currentLoadingId = id;
     final result = await Future.any([
       future(),
       Future.delayed(Duration(seconds: timeout), () {
-        if (state) {
+        if (state && _currentLoadingId == id) {
           state = false;
           _showMessage(_timeoutMessage);
         }
       }),
     ]);
 
-    state = false;
+    if (state && _currentLoadingId == id) {
+      state = false;
+    }
+
     return result;
   }
 
