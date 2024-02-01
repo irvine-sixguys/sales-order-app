@@ -12,6 +12,7 @@ import 'package:six_guys/domain/sales_order.dart';
 import 'package:six_guys/ui/camera/painters/text_detector_painter.dart';
 import 'package:six_guys/ui/scan/widgets/content_box_widget.dart';
 import 'package:six_guys/ui/widgets/loading_widget.dart';
+import 'package:six_guys/utils/erpnext_api.dart';
 import 'package:six_guys/utils/nlp_plugin.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
@@ -36,6 +37,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     final nlpPlugin = ref.watch(nlpPluginProvider);
+    final erpNextApi = ref.watch(erpApiProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Six Guys")),
@@ -197,6 +199,23 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       child: const Icon(Icons.add, size: 40, color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                InkWell(
+                  onTap: () async {
+                    ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
+                  },
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      child: const Text("Send", style: TextStyle(fontSize: 20, color: Colors.white)),
                     ),
                   ),
                 ),
