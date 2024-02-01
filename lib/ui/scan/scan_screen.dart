@@ -84,9 +84,11 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                         if (answer == null || !answer) return;
 
                         final res = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult(
-                          () async => await nlpPlugin.getJsonResult("extract useful information from the following Purchase Order OCR:\n${recognizedText.text}"),
+                          () async => await nlpPlugin.getJsonResult(nlpPlugin.getPrompt(recognizedText.text)),
                         );
                         if (res == null) return;
+
+                        print(res);
 
                         final salesOrder = SalesOrder.fromJson(res);
 
