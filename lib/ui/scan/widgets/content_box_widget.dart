@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 class ContentBoxWidget extends StatelessWidget {
   final String title;
-  final Widget child;
+  final TextEditingController? controller;
+  final Widget? child;
 
-  const ContentBoxWidget({
+  ContentBoxWidget({
     super.key,
     required this.title,
-    required this.child,
-  });
+    this.controller,
+    this.child,
+  }) {
+    assert(controller != null || child != null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,15 @@ class ContentBoxWidget extends StatelessWidget {
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: child,
+          child: (child == null)
+              ? TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    isDense: true,
+                  ),
+                )
+              : child,
         ),
       ],
     );
