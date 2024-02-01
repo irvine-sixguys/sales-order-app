@@ -1,11 +1,25 @@
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dio/browser.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final erpApiProvider = StateNotifierProvider<ERPAPINotifier, ERPNextAPI>((ref) => ERPAPINotifier());
 
 class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
   final _dio = Dio();
-  ERPAPINotifier() : super(ERPNextAPI());
+  final adapter = BrowserHttpClientAdapter();
+  final cookieJar = CookieJar();
+
+  ERPAPINotifier() : super(ERPNextAPI()) {
+    if (kIsWeb) {
+      adapter.withCredentials = true;
+      _dio.httpClientAdapter = adapter;
+    } else {
+      _dio.interceptors.add(CookieManager(cookieJar));
+    }
+  }
 
   void login({
     required String url,
@@ -27,7 +41,7 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
           options: Options(
             headers: {"Content-Type": "application/json", "Accept": "application/json"},
           ));
-      print(response.headers["set-cookie"]);
+      print(response.headers);
     } on DioException catch (e) {
       print(e);
     }
