@@ -8,7 +8,8 @@ import 'package:six_guys/firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: "env");
+  await dotenv.load(fileName: "env"); // Flutter Web
+  // await dotenv.load(fileName: ".env"); // Flutter Phone
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
