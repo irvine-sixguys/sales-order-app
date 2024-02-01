@@ -32,4 +32,35 @@ class NLPPlugin {
 
     return jsonDecode(result.data["choices"][0]["message"]["content"]);
   }
+
+  String getPrompt(String ocr) {
+    return """\
+Following is the sales order format:
+{
+    "data": {
+        "customer": "Yany", // 필수
+        "transaction_date": "2024-01-15",
+        "currency": "USD",
+        "selling_price_list": "Standard Selling",
+        "items": [
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 1.0,
+                "rate": 5.0
+            },
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 2.0,
+                "rate": 5.0
+            }
+        ]
+    }
+}
+---
+Return the sales order details for the following OCR result:
+$ocr
+""";
+  }
 }
