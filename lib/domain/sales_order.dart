@@ -44,8 +44,8 @@ class SalesOrder {
     return SalesOrder(
       customer: data["customer"] ?? "",
       transactionDate: data["transaction_date"] ?? "",
-      currency: data["currency"] ?? "",
-      sellingPriceList: data["selling_price_list"] ?? "",
+      currency: data["currency"] ?? "USD",
+      sellingPriceList: data["selling_price_list"] ?? "Standard Selling",
       items: (data["items"] as List)
           .map((e) => SalesOrderItem(
                 itemCode: e["item_code"] ?? "",

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:six_guys/domain/sales_order.dart';
 
 final erpApiProvider = StateNotifierProvider<ERPAPINotifier, ERPNextAPI>((ref) => ERPAPINotifier());
 
@@ -41,7 +42,18 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
           options: Options(
             headers: {"Content-Type": "application/json", "Accept": "application/json"},
           ));
-      print(response.headers);
+    } on DioException catch (e) {
+      print(e);
+    }
+  }
+
+  void scanAndSend(SalesOrder order) async {
+    try {
+      final response = await _dio.post("${state.url}/api/resource/Sales%20Order",
+          data: order.toJson(),
+          options: Options(
+            headers: {"Content-Type": "application/json", "Accept": "application/json"},
+          ));
     } on DioException catch (e) {
       print(e);
     }
