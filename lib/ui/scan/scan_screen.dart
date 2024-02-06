@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -166,6 +167,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                                     isDense: true,
                                   ),
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))],
                                 ),
                               ),
                             ),
@@ -181,6 +183,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                                     isDense: true,
                                   ),
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))],
                                 ),
                               ),
                             ),
