@@ -157,25 +157,31 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                             const SizedBox(height: 20),
                             ContentBoxWidget(
                               title: "Qty",
-                              child: TextField(
-                                controller: e.qtyController,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  isDense: true,
+                              child: SizedBox(
+                                height: 15,
+                                child: TextField(
+                                  controller: e.qtyController,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.number,
                                 ),
-                                keyboardType: TextInputType.number,
                               ),
                             ),
                             const SizedBox(height: 20),
                             ContentBoxWidget(
                               title: "Rate",
-                              child: TextField(
-                                controller: e.rateController,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  isDense: true,
+                              child: SizedBox(
+                                height: 15,
+                                child: TextField(
+                                  controller: e.rateController,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.number,
                                 ),
-                                keyboardType: TextInputType.number,
                               ),
                             ),
                           ],
