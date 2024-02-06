@@ -11,7 +11,28 @@ class NLPPlugin {
   final _endPoint = "https://api.openai.com/v1/chat/completions";
   final _dio = Dio();
 
-  Future<Map<String, dynamic>> getJsonResult(String prompt) async {
+  /// method which return the Class <T> object
+  /// [prompt] is the string to be sent to the OpenAI API
+  /// [T] is the type of the object to be returned
+  /// [T] must be a class with a factory constructor that takes a Map<String, dynamic>
+  Future<T?> getClassResult<T>(
+    String prompt,
+    T Function(Map<String, dynamic>) fromJson, {
+    int retryCount = 2,
+  }) async {
+    try {
+      final json = await _getJsonResult(prompt);
+      return fromJson(json);
+    } catch (e) {
+      if (retryCount > 0) {
+        return getClassResult(prompt, fromJson, retryCount: retryCount - 1);
+      } else {
+        return null;
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>> _getJsonResult(String prompt) async {
     final result = await _dio.post(
       _endPoint,
       data: {

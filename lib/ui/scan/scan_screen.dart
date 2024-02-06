@@ -85,14 +85,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
 
                         if (answer == null || !answer) return;
 
-                        final res = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult(
-                          () async => await nlpPlugin.getJsonResult(nlpPlugin.getPrompt(recognizedText.text)),
+                        final salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult(
+                          () async => await nlpPlugin.getClassResult(nlpPlugin.getPrompt(recognizedText.text), SalesOrder.fromJson),
                         );
-                        if (res == null) return;
-
-                        print(res);
-
-                        final salesOrder = SalesOrder.fromJson(res);
+                        if (salesOrder == null) return;
 
                         _fillTextFields(salesOrder, controllers);
                         setState(() {});
