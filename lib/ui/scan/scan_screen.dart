@@ -38,7 +38,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     final nlpPlugin = ref.watch(nlpPluginProvider);
-    final erpNextApi = ref.watch(erpApiProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Six Guys")),
