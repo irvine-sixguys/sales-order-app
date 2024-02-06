@@ -5,15 +5,20 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/domain/sales_order.dart';
+import 'package:six_guys/utils/modals.dart';
 
-final erpApiProvider = StateNotifierProvider<ERPAPINotifier, ERPNextAPI>((ref) => ERPAPINotifier());
+final erpApiProvider = StateNotifierProvider<ERPAPINotifier, ERPNextAPI>((ref) => ERPAPINotifier(ref));
 
 class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
   final _dio = Dio();
   final adapter = BrowserHttpClientAdapter();
   final cookieJar = CookieJar();
+  final Ref _ref;
 
-  ERPAPINotifier() : super(ERPNextAPI()) {
+  ERPAPINotifier(Ref ref)
+      : _ref = ref,
+        super(ERPNextAPI()) {
+    // web
     if (kIsWeb) {
       adapter.withCredentials = true;
       _dio.httpClientAdapter = adapter;
@@ -49,13 +54,22 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
   }
 
   void scanAndSend(SalesOrder order) async {
+    if (order.customer.trim().isEmpty) {
+      _ref.read(modalsProvider).showMySnackBar("Please enter a customer name.");
+      return;
+    }
+
     try {
       final response = await _dio.post("${state.url}/api/resource/Sales%20Order",
           data: order.toJson(),
           options: Options(
             headers: {"Content-Type": "application/json", "Accept": "application/json"},
           ));
+      print(response.data);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError) {
+        _ref.read(modalsProvider).showMySnackBar("Connection Error. Please check your connection with ERPNext server.");
+      }
       print(e);
     }
   }

@@ -140,7 +140,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                                 controllers.items.remove(e);
                                 setState(() {});
                               },
-                              child: const Icon(Icons.close, size: 30, color: Colors.red),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                child: Icon(Icons.close, size: 30, color: Colors.red),
+                              ),
                             ),
                             ContentBoxWidget(
                               title: "Item Code",
@@ -194,24 +197,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                     ),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      child: const Icon(Icons.add, size: 40, color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                InkWell(
-                  onTap: () async {
-                    ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      child: const Text("Send", style: TextStyle(fontSize: 20, color: Colors.white)),
+                      child: const Text("Add Item", style: TextStyle(fontSize: 20, color: Colors.white)),
                     ),
                   ),
                 ),
@@ -219,6 +205,12 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
+        },
+        child: const Icon(Icons.shortcut_sharp),
       ),
     );
   }

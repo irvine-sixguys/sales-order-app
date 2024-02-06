@@ -20,7 +20,7 @@ class ContentBoxWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(title, style: const TextStyle(fontSize: 18)),
+        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
         const SizedBox(height: 5),
         Container(
           padding: const EdgeInsets.all(20.0),
@@ -29,11 +29,14 @@ class ContentBoxWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: (child == null)
-              ? TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    isDense: true,
+              ? SizedBox(
+                  height: 15,
+                  child: TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                    ),
                   ),
                 )
               : child,
