@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/core/app_router.dart';
 
-class MenuButton extends StatelessWidget {
-  final WidgetRef ref;
+class MenuButton extends ConsumerWidget {
   final String title;
   final String route;
 
-  const MenuButton({super.key, required this.ref, required this.title, required this.route});
+  const MenuButton({super.key, required this.title, required this.route});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
         ref.read(routerProvider).push(route);

@@ -14,7 +14,7 @@ class ERPNextScreen extends ConsumerWidget {
     final passwordTextController = TextEditingController(text: erpnextAPI.password);
 
     return Scaffold(
-        appBar: AppBar(title: const Text("ERPNext Settings")),
+        appBar: AppBar(title: const Text("Settings")),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Padding(
