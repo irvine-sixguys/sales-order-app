@@ -1,6 +1,11 @@
-# six_guys
+<div align="center">
+  <img src="./images/logo.jpg"></img>
+  <h1> Six Guys</h1>
+  Mobile Application For Automatic Inserting Sales Order In ERPNext.
+</div>
+<br/>
+This includes **OpenAI's GPT 3.5 and ERPNext API**.
 
-A new Flutter project.
 
 ## Installation & Configuration
 ### From source
