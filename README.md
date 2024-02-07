@@ -2,6 +2,24 @@
 
 A new Flutter project.
 
+## Installation & Configuration
+### From source
+```bash
+git clone https://github.com/irvine-sixguys/sales-order-app
+cd sales-order-app
+```
+
+### Configure ChatGPT API
+```bash
+# on the project root
+echo OPENAI_API_KEY=paste-your-openai-api-key-here > .env
+```
+
+## Start
+```bash
+flutter run
+```
+
 ## Features
 
 ### Activate ERPNext Connection
