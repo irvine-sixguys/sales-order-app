@@ -2,15 +2,14 @@
 
 A new Flutter project.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+### Activate ERPNext Connection
+![login](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/6211edba-ae4a-4e7e-a648-04d158b3c095)
 
-A few resources to get you started if this is your first Flutter project:
+### Parse OCR result using LLM (Adaptive Few-shot learning)
+#### First attempt (Customer name is not recognized properly.)
+![first](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/1c0f2336-e060-4953-ac67-163a17e40f43)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Second attempt (Customer name is now properly recognized.)
+![second](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/d7496b0b-f2e3-4878-a8b5-36e49f865153)
