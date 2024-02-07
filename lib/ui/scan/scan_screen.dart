@@ -112,9 +112,8 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                               () async => await nlpPlugin.getClassResult(nlpPlugin.getPrompt(recognizedText.text), SalesOrder.fromJson),
                             );
                           } else {
-                            final template = templateInfo.first;
                             salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult<SalesOrder?>(
-                              () async => await nlpPlugin.getClassResult(nlpPlugin.getPromptWithTemplate(recognizedText.text, template), SalesOrder.fromJson),
+                              () async => await nlpPlugin.getClassResult(nlpPlugin.getPromptWithTemplate(recognizedText.text, templateInfo), SalesOrder.fromJson),
                             );
                           }
                         }
@@ -249,9 +248,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
+          await ref.read(globalLoadingProvider.notifier).startLoadingWithTimeoutAndReturnResult(() async => await ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder()));
           if (ocrResult == null || selectedTemplateName == null || imageBytes == null) return;
 
+          ref.read(globalLoadingProvider.notifier).startLoadingWithTimeout();
           await ref.read(templateRepoProvider).saveTemplateInfo(Template(
                 name: selectedTemplateName!,
                 imageBytes: imageBytes!,
@@ -259,6 +259,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                 expectedLLMResult: jsonEncode(controllers.toSalesOrder().toJson()),
               ));
           ref.read(modalsProvider).showMySnackBar("Template ${selectedTemplateName!} Saved");
+          ref.read(globalLoadingProvider.notifier).stopLoading();
         },
         child: const Icon(Icons.shortcut_sharp),
       ),

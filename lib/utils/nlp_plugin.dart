@@ -86,35 +86,11 @@ $ocr
 """;
   }
 
-  String getPromptWithTemplate(String ocr, Template template) {
+  String getPromptWithTemplate(String ocr, List<Template> templates) {
+    if (templates.isEmpty) return getPrompt(ocr);
+
     return """\
-Following is the sales order format:
-{
-    "data": {
-        "customer": "Yany", // 필수
-        "transaction_date": "2024-01-15",
-        "currency": "USD",
-        "selling_price_list": "Standard Selling",
-        "items": [
-            {
-                "item_code": "777",
-                "delivery_date": "2024-01-16",
-                "qty": 1.0,
-                "rate": 5.0
-            },
-            {
-                "item_code": "777",
-                "delivery_date": "2024-01-16",
-                "qty": 2.0,
-                "rate": 5.0
-            }
-        ]
-    }
-}
----
-Return the sales order details for the following OCR result:
-${template.ocrResult}
-${template.expectedLLMResult}
+${templates.map((template) => "---\nReturn the sales order details for the following OCR result:\n${template.ocrResult}\n${template.expectedLLMResult}").join("\n---\n")}
 ---
 Return the sales order details for the following OCR result:
 $ocr

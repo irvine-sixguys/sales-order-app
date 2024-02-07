@@ -98,7 +98,7 @@ class ERPNextAPI {
   final String? loginCookie;
 
   ERPNextAPI({
-    this.url = "https://calm-beans-eat.loca.lt",
+    this.url = "https://curvy-pets-matter.loca.lt",
     this.username = "Administrator",
     this.password = "admin",
     this.loginCookie,

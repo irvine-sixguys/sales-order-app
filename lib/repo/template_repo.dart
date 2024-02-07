@@ -22,7 +22,7 @@ class TemplateRepo {
       storedTemplates.add(Template.fromJson(jsonDecode(data)));
     }
 
-    storedTemplates = storedTemplates.take(1).toList();
+    storedTemplates = storedTemplates.take(3).toList();
 
     await _prefs.setStringList(
       template.name,

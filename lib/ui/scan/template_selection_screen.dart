@@ -42,34 +42,29 @@ class _TemplateSelectionScreenState extends ConsumerState<TemplateSelectionScree
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: templates.entries.map(
                 (e) {
+                  final template = e.value.first;
                   return Column(
                     children: [
-                      ...e.value.map(
-                        (template) => Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context, template.name);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  children: [
-                                    Text("Template: ${template.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-                                    const SizedBox(height: 10),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                                      child: Image.memory(template.imageBytes),
-                                    ),
-                                  ],
-                                ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context, template.name);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Text("Template: ${template.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                              const SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 30),
+                                child: Image.memory(template.imageBytes),
                               ),
-                            ),
-                            const Divider(thickness: 2),
-                            const SizedBox(height: 10),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
+                      const Divider(thickness: 2),
+                      const SizedBox(height: 10),
                     ],
                   );
                 },
