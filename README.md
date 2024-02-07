@@ -1,10 +1,12 @@
 <div align="center">
-  <img src="./images/logo.jpg"></img>
-  <h1> Six Guys</h1>
-  Mobile Application For Automatic Inserting Sales Order In ERPNext.
+  <img src="./images/logo.jpg", height=200></img>
+  <h1>Six Guys Application</h1>
+  Mobile Application For Automatic Inserting Sales Order In ERPNext.<br/>
+  This includes <b>OpenAI's GPT 3.5 and ERPNext REST API.<b/>
 </div>
 <br/>
-This includes **OpenAI's GPT 3.5 and ERPNext API**.
+    
+> You must enter your OpenAI API Key
 
 
 ## Installation & Configuration
