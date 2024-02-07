@@ -28,10 +28,6 @@ echo OPENAI_API_KEY=paste-your-openai-api-key-here > .env
 flutter run
 ```
 
-## Flow Diagram
-<img height=900 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/8b3ef814-c9e1-4654-a152-d6333aa8a208"></img>
-
-
 ## Techinques
 ### 📑 Adaptive Few-shot learning
 
@@ -45,6 +41,13 @@ As more queries gather, the OCR parsing accuracy & performances are enhanced.
 ### 📷 OCR
 
 This app uses Google's MLKit for OCR. MLKit uses the internal OCR API inside the mobile device. MLKit and the phone's native OCR features showed better performance & accuracy compared to the competitors (`pytesseract`, `tesseract.js`).
+
+## Flow Diagram
+<img height=900 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/8b3ef814-c9e1-4654-a152-d6333aa8a208"></img>
+
+## Interface
+<img height=500 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/fa2487a6-bf98-4f32-9d89-0b45df4221ba"></img>
+
 
 ## Features
 
