@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:six_guys/domain/template.dart';
 
 final nlpPluginProvider = Provider<NLPPlugin>((ref) => NLPPlugin());
 
@@ -79,6 +80,41 @@ Following is the sales order format:
         ]
     }
 }
+---
+Return the sales order details for the following OCR result:
+$ocr
+""";
+  }
+
+  String getPromptWithTemplate(String ocr, Template template) {
+    return """\
+Following is the sales order format:
+{
+    "data": {
+        "customer": "Yany", // 필수
+        "transaction_date": "2024-01-15",
+        "currency": "USD",
+        "selling_price_list": "Standard Selling",
+        "items": [
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 1.0,
+                "rate": 5.0
+            },
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 2.0,
+                "rate": 5.0
+            }
+        ]
+    }
+}
+---
+Return the sales order details for the following OCR result:
+${template.ocrResult}
+${template.expectedLLMResult}
 ---
 Return the sales order details for the following OCR result:
 $ocr

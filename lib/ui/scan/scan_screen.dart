@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -10,10 +11,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:six_guys/core/app_router.dart';
 import 'package:six_guys/core/app_routes.dart';
 import 'package:six_guys/domain/sales_order.dart';
+import 'package:six_guys/domain/template.dart';
+import 'package:six_guys/repo/template_repo.dart';
 import 'package:six_guys/ui/camera/painters/text_detector_painter.dart';
+import 'package:six_guys/ui/scan/template_selection_screen.dart';
 import 'package:six_guys/ui/scan/widgets/content_box_widget.dart';
 import 'package:six_guys/ui/widgets/loading_widget.dart';
 import 'package:six_guys/utils/erpnext_api.dart';
+import 'package:six_guys/utils/modals.dart';
 import 'package:six_guys/utils/nlp_plugin.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
@@ -25,6 +30,9 @@ class ScanScreen extends ConsumerStatefulWidget {
 
 class _ScanScreenState extends ConsumerState<ScanScreen> {
   late final _SalesOrderTextFieldControllers controllers;
+  String? ocrResult;
+  String? selectedTemplateName;
+  Uint8List? imageBytes;
 
   @override
   void initState() {
@@ -61,8 +69,8 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                         final rotatedImage = await FlutterExifRotation.rotateImage(path: pickedFile.path);
                         final inputImage = InputImage.fromFile(rotatedImage);
 
-                        final imageBytes = await File(inputImage.filePath!).readAsBytes();
-                        final decodedImage = await decodeImageFromList(imageBytes);
+                        imageBytes = await File(inputImage.filePath!).readAsBytes();
+                        final decodedImage = await decodeImageFromList(imageBytes!);
                         final height = decodedImage.height; // Image height
                         final width = decodedImage.width; // Image width
 
@@ -85,10 +93,35 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
 
                         if (answer == null || !answer) return;
 
-                        final salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult(
-                          () async => await nlpPlugin.getClassResult(nlpPlugin.getPrompt(recognizedText.text), SalesOrder.fromJson),
-                        );
+                        selectedTemplateName = await Navigator.push<String>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TemplateSelectionScreen(),
+                            ));
+
+                        SalesOrder? salesOrder;
+
+                        if (selectedTemplateName == null) {
+                          salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult<SalesOrder?>(
+                            () async => await nlpPlugin.getClassResult(nlpPlugin.getPrompt(recognizedText.text), SalesOrder.fromJson),
+                          );
+                        } else {
+                          final templateInfo = await ref.read(templateRepoProvider).getTemplateInfo(selectedTemplateName!);
+                          if (templateInfo.isEmpty) {
+                            salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult<SalesOrder?>(
+                              () async => await nlpPlugin.getClassResult(nlpPlugin.getPrompt(recognizedText.text), SalesOrder.fromJson),
+                            );
+                          } else {
+                            final template = templateInfo.first;
+                            salesOrder = await globalLoadingNotifier.startLoadingWithTimeoutAndReturnResult<SalesOrder?>(
+                              () async => await nlpPlugin.getClassResult(nlpPlugin.getPromptWithTemplate(recognizedText.text, template), SalesOrder.fromJson),
+                            );
+                          }
+                        }
+
                         if (salesOrder == null) return;
+
+                        ocrResult = recognizedText.text;
 
                         _fillTextFields(salesOrder, controllers);
                         setState(() {});
@@ -215,8 +248,17 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
+        onPressed: () async {
+          await ref.read(erpApiProvider.notifier).scanAndSend(controllers.toSalesOrder());
+          if (ocrResult == null || selectedTemplateName == null || imageBytes == null) return;
+
+          await ref.read(templateRepoProvider).saveTemplateInfo(Template(
+                name: selectedTemplateName!,
+                imageBytes: imageBytes!,
+                ocrResult: ocrResult!,
+                expectedLLMResult: jsonEncode(controllers.toSalesOrder().toJson()),
+              ));
+          ref.read(modalsProvider).showMySnackBar("Template ${selectedTemplateName!} Saved");
         },
         child: const Icon(Icons.shortcut_sharp),
       ),
