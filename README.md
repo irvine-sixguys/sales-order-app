@@ -29,11 +29,11 @@ flutter run
 ```
 
 ## Flow Diagram
-![]()
+<img height=900 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/8b3ef814-c9e1-4654-a152-d6333aa8a208"></img>
 
 
 ## Techinques
-### Adaptive Few-shot learning
+### 📑 Adaptive Few-shot learning
 
 > This application uses ChatGPT for parsing purchase order documents into sales order data.  
 > Following results are shown in the second attempt of the Demo.
@@ -42,7 +42,7 @@ After the OCR process, we use few-shot learning techniques for increased accurac
 Previous LLM query history are stored inside the app's local storage, used as the few-shot example for future template parsing attempts.  
 As more queries gather, the OCR parsing accuracy & performances are enhanced.  
 
-### OCR
+### 📷 OCR
 
 This app uses Google's MLKit for OCR. MLKit uses the internal OCR API inside the mobile device. MLKit and the phone's native OCR features showed better performance & accuracy compared to the competitors (`pytesseract`, `tesseract.js`).
 
