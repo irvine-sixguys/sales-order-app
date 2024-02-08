@@ -57,6 +57,7 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
       }
     } on DioException catch (e) {
       print(e);
+      e.message != null ? _ref.read(modalsProvider).showMySnackBar(e.message!) : _ref.read(modalsProvider).showMySnackBar("Error logging in.");
     }
   }
 
@@ -79,6 +80,7 @@ class ERPAPINotifier extends StateNotifier<ERPNextAPI> {
         _ref.read(modalsProvider).showMySnackBar("Connection Error. Please check your connection with ERPNext server.");
       }
       print(e);
+      e.message != null ? _ref.read(modalsProvider).showMySnackBar(e.message!) : _ref.read(modalsProvider).showMySnackBar("Error creating Sales Order.");
     }
   }
 

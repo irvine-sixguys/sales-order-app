@@ -4,13 +4,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:six_guys/domain/template.dart';
+import 'package:six_guys/utils/modals.dart';
 
-final nlpPluginProvider = Provider<NLPPlugin>((ref) => NLPPlugin());
+final nlpPluginProvider = Provider<NLPPlugin>((ref) => NLPPlugin(ref));
 
 class NLPPlugin {
+  final Ref _ref;
+
   final _apiKey = dotenv.env["OPENAI_API_KEY"];
   final _endPoint = "https://api.openai.com/v1/chat/completions";
   final _dio = Dio();
+
+  NLPPlugin(this._ref);
 
   /// method which return the Class <T> object
   /// [prompt] is the string to be sent to the OpenAI API
@@ -28,6 +33,8 @@ class NLPPlugin {
       if (retryCount > 0) {
         return getClassResult(prompt, fromJson, retryCount: retryCount - 1);
       } else {
+        print(e);
+        _ref.read(modalsProvider).showMySnackBar("Error getting result from OpenAI.");
         return null;
       }
     }
