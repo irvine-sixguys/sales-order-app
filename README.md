@@ -140,7 +140,7 @@ Return the sales order details for the following OCR result:
 
 <img height=500 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/fa2487a6-bf98-4f32-9d89-0b45df4221ba"></img>
 
-## Features
+## Demo
 
 ### Activate ERPNext Connection
 
@@ -155,6 +155,13 @@ Return the sales order details for the following OCR result:
 #### Second attempt (Customer name is now properly recognized.)
 
 ![second](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/d7496b0b-f2e3-4878-a8b5-36e49f865153)
+
+### Result
+
+Finally, you can find the Sales Order drafts on your ERPNext.
+
+<img width="1293" alt="image" src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/0d9c9f01-c285-40d3-b7b6-678eff6d004d">
+
 
 ## Security Design
 
