@@ -1,4 +1,4 @@
-![image](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/d926e433-fea1-402a-a10f-c3211c0cefad)<div align="center">
+<div align="center">
   <img src="./images/logo.jpg", height=200></img>
   <h1>Six Guys Application</h1>
   Mobile Application For Automatic Inserting Sales Order In ERPNext.<br/>
@@ -46,7 +46,7 @@ As more queries gather, the OCR parsing accuracy & performances are enhanced.
 This app uses Google's MLKit for OCR. MLKit uses the internal OCR API inside the mobile device. MLKit and the phone's native OCR features showed better performance & accuracy compared to the competitors (`pytesseract`, `tesseract.js`).
 
 ## Architecture
-![image](https://github.com/irvine-sixguys/sales-order-app/assets/51053567/cbdd61af-4ac1-4591-9004-d5aed516242f)
+<img height=500 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/cbdd61af-4ac1-4591-9004-d5aed516242f"/>
 
 
 ## Flow Diagram
