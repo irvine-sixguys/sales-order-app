@@ -77,6 +77,61 @@ class SalesOrder {
 }
 ```
 
+Followings are the prompts used in `Parsing module`.
+
+> First, the prompt for first attempt:
+
+```plain
+Following is the sales order format:
+{
+    "data": {
+        "customer": "Yany", // 필수
+        "transaction_date": "2024-01-15",
+        "currency": "USD",
+        "selling_price_list": "Standard Selling",
+        "items": [
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 1.0,
+                "rate": 5.0
+            },
+            {
+                "item_code": "777",
+                "delivery_date": "2024-01-16",
+                "qty": 2.0,
+                "rate": 5.0
+            }
+        ]
+    }
+}
+---
+Return the sales order details for the following OCR result:
+[[this is OCR result for a purchase order document.]]
+```
+
+> Second, the prompt for second, third, ... attempts:
+
+```plain
+---
+Return the sales order details for the following OCR result:
+[[OCR result of stored example 1]]
+{
+    "data": ...
+}
+---
+...
+---
+Return the sales order details for the following OCR result:
+[[OCR result of stored example n]]
+{
+    "data": ...
+}
+---
+Return the sales order details for the following OCR result:
+[[this is OCR result for a purchase order document.]]
+```
+
 ## Flow Diagram
 
 <img height=900 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/8b3ef814-c9e1-4654-a152-d6333aa8a208"></img>
