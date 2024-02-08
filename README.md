@@ -48,6 +48,28 @@ This app uses Google's MLKit for OCR. MLKit uses the internal OCR API inside the
 ## Architecture
 <img height=500 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/cbdd61af-4ac1-4591-9004-d5aed516242f"/>
 
+## Data Design
+Following classes are the required fields of ERPNext sales order API.
+```dart
+class SalesOrderItem {
+  final String itemCode;
+  final String deliveryDate;
+  final double qty;
+  final double rate;
+
+  ...
+}
+
+class SalesOrder {
+  final String customer;
+  final String transactionDate;
+  final String currency;
+  final String sellingPriceList;
+  final List<SalesOrderItem> items;
+
+  ...
+}
+```
 
 ## Flow Diagram
 <img height=900 src="https://github.com/irvine-sixguys/sales-order-app/assets/51053567/8b3ef814-c9e1-4654-a152-d6333aa8a208"></img>
